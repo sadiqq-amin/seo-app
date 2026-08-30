@@ -1,10 +1,20 @@
 import { useState } from 'react'
 
-// Ye hook API call, loading, aur error — sab sambhalta hai
 function usePageSpeed() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [data, setData] = useState(null)
+
+  async function fetchOnce(url, strategy) {
+    const apiKey = import.meta.env.VITE_PAGESPEED_API_KEY
+    const endpoint = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=${strategy}&category=performance&category=seo&category=accessibility&category=best-practices&key=${apiKey}`
+
+    const response = await fetch(endpoint)
+    if (!response.ok) {
+      throw new Error('BAD_RESPONSE')
+    }
+    return response.json()
+  }
 
   async function checkSite(url, strategy = 'mobile') {
     setLoading(true)
@@ -12,25 +22,18 @@ function usePageSpeed() {
     setData(null)
 
     try {
-      const apiKey = import.meta.env.VITE_PAGESPEED_API_KEY
-      const endpoint = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=${strategy}&category=performance&category=seo&category=accessibility&category=best-practices&key=${apiKey}`
-
-      const response = await fetch(endpoint)
-
-      if (!response.ok) {
-        throw new Error('That URL didn\'t return a valid page. Double-check it starts with https://.')
+      let result
+      try {
+        // Pehli koshish
+        result = await fetchOnce(url, strategy)
+      } catch (firstErr) {
+        // Google ka API kabhi kabhi pehli baar flaky hota hai — ek dafa aur try karo
+        await new Promise((r) => setTimeout(r, 1200))
+        result = await fetchOnce(url, strategy)
       }
-
-      const json = await response.json()
-      setData(json)
-        } catch (err) {
-      if (err.message.includes('valid page')) {
-        setError(err.message)
-      } else if (err instanceof TypeError) {
-        setError("Couldn't connect — check your internet connection and try again.")
-      } else {
-        setError("Something went wrong while checking that site. Try again in a moment.")
-      }
+      setData(result)
+    } catch (err) {
+      setError("That URL didn't return a valid page. Double-check it starts with https://.")
     } finally {
       setLoading(false)
     }

@@ -1,8 +1,7 @@
-// Google ka JSON bohot bada aur messy hai — ye function usme se
-// sirf wo 4 scores + kuch important issues nikal ke ek simple object banata hai.
 function parseReport(rawData) {
   const categories = rawData?.lighthouseResult?.categories
   const audits = rawData?.lighthouseResult?.audits
+  const cwv = rawData?.loadingExperience?.metrics 
 
   if (!categories) {
     throw new Error("Couldn't read the report data. Try a different URL.")
@@ -12,18 +11,29 @@ function parseReport(rawData) {
     return Math.round((score ?? 0) * 100)
   }
 
-  // Audits jinka score kam hai (matlab problem hai) — unko issues bana dete hain
   function getIssues() {
     if (!audits) return []
-
     return Object.values(audits)
       .filter((audit) => audit.score !== null && audit.score < 0.9 && audit.title)
-      .sort((a, b) => a.score - b.score) // sabse bada problem pehle
-      .slice(0, 6) // sirf top 6 dikhao, poori list nahi
+      .sort((a, b) => a.score - b.score)
+      .slice(0, 6)
       .map((audit) => ({
         title: audit.title,
-        description: audit.description?.split('[')[0]?.trim() || '', // Google ke links wagera hata dete hain
+        description: audit.description?.split('[')[0]?.trim() || '',
       }))
+  }
+
+  function getCoreWebVitals() {
+    if (!cwv) return null
+    const lcp = cwv.LARGEST_CONTENTFUL_PAINT_MS
+    const inp = cwv.INTERACTION_TO_NEXT_PAINT
+    const cls = cwv.CUMULATIVE_LAYOUT_SHIFT_SCORE
+
+    return {
+      lcp: lcp ? { raw: lcp.percentile, unit: 'ms', category: lcp.category } : null,
+      inp: inp ? { raw: inp.percentile, unit: 'ms', category: inp.category } : null,
+      cls: cls ? { raw: cls.percentile / 100, unit: '', category: cls.category } : null,
+    }
   }
 
   return {
@@ -32,6 +42,7 @@ function parseReport(rawData) {
     accessibility: toPercent(categories.accessibility?.score),
     bestPractices: toPercent(categories['best-practices']?.score),
     issues: getIssues(),
+    coreWebVitals: getCoreWebVitals(),
   }
 }
 

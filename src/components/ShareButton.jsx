@@ -1,11 +1,11 @@
 import { useState } from 'react'
+import { Copy, Check } from 'lucide-react'
 
-// Result ko copy karke share karne layak text bana deta hai
 function ShareButton({ url, scores }) {
   const [copied, setCopied] = useState(false)
 
   function handleShare() {
-    const text = `SEO Checker report for ${url}:
+    const text = `SitePulse report for ${url}:
 Performance: ${scores.performance}
 SEO: ${scores.seo}
 Accessibility: ${scores.accessibility}
@@ -19,12 +19,17 @@ Check your own site: ${window.location.origin}`
   }
 
   return (
-    <button
-      onClick={handleShare}
-      className="mt-6 mx-auto block text-sm text-ink/60 border border-line rounded-md px-4 py-2 hover:bg-line/30 transition"
-    >
-      {copied ? 'Copied!' : 'Copy result to share'}
-    </button>
+    <div className="mt-10 max-w-lg mx-auto w-full flex justify-center">
+      <button
+        onClick={handleShare}
+        className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition ${
+          copied ? 'bg-good text-white' : 'border border-line text-ink/70 hover:bg-line/30'
+        }`}
+      >
+        {copied ? <Check size={14} /> : <Copy size={14} />}
+        {copied ? 'Copied to clipboard' : 'Copy result to share'}
+      </button>
+    </div>
   )
 }
 

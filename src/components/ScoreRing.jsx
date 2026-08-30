@@ -5,9 +5,9 @@ function ScoreRing({ label = '', score, size = 96 }) {
   const circumference = 2 * Math.PI * radius
   const offset = circumference - (score / 100) * circumference
 
-  let colorVar = 'var(--color-bad)'
+    let colorVar = 'var(--color-bad)'
   if (score >= 90) colorVar = 'var(--color-good)'
-  else if (score >= 50) colorVar = 'var(--color-warn)'
+  else if (score >= 70) colorVar = 'var(--color-warn)'
 
   return (
     <div className="flex flex-col items-center gap-2">
