@@ -1,6 +1,5 @@
 // Ek score ka circle banata hai. Rang score ke hisab se badalta hai.
-function ScoreRing({ label, score }) {
-  const size = 96
+function ScoreRing({ label = '', score, size = 96 }) {
   const stroke = 6
   const radius = (size - stroke) / 2
   const circumference = 2 * Math.PI * radius
@@ -12,30 +11,34 @@ function ScoreRing({ label, score }) {
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <svg width={size} height={size} className="-rotate-90">
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke="var(--color-line)"
-          strokeWidth={stroke}
-        />
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke={colorVar}
-          strokeWidth={stroke}
-          strokeDasharray={circumference}
-          strokeDashoffset={offset}
-          strokeLinecap="round"
-          style={{ transition: 'stroke-dashoffset 0.8s ease' }}
-        />
-      </svg>
-      <span className="font-mono text-lg -mt-16">{score}</span>
-      <span className="text-sm text-ink/60 mt-14">{label}</span>
+      <div className="relative" style={{ width: size, height: size }}>
+        <svg width={size} height={size} className="-rotate-90 absolute top-0 left-0">
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            fill="none"
+            stroke="var(--color-line)"
+            strokeWidth={stroke}
+          />
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            fill="none"
+            stroke={colorVar}
+            strokeWidth={stroke}
+            strokeDasharray={circumference}
+            strokeDashoffset={offset}
+            strokeLinecap="round"
+            style={{ transition: 'stroke-dashoffset 0.8s ease' }}
+          />
+        </svg>
+        <span className="absolute inset-0 flex items-center justify-center font-mono text-lg">
+          {score}
+        </span>
+      </div>
+      {label && <span className="text-sm text-ink/60">{label}</span>}
     </div>
   )
 }
