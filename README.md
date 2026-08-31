@@ -1,6 +1,6 @@
 # SitePulse
 
-Paste a website link. Get an instant, honest report on its SEO, performance, and accessibility, Plus a side-by-side comparison mode to see how two sites stack up.
+PSitePulse is a web-based website performance and SEO analyzer that helps users quickly understand how well their website performs and identify areas that need improvement. It is designed for developers, students, freelancers, and small business owners who want a simple alternative to complex SEO tools. I chose this idea because it solves a practical real-world problem while allowing me to demonstrate core frontend development skills such as React, API integration, data visualization, responsive UI, and AI-powered recommendations..
 
 Built as my frontend capstone project for my internship at FlyRank.ai.
 
@@ -58,10 +58,16 @@ src/
 └── styles/        # Tailwind theme tokens
 ```
 
-## Design philosophy
 
-Built to feel like a diagnostic report, not a marketing landing page — calm colors, mono type for data/numbers, minimal animation. 
-## What I'd add next
+## AI Integration
+
+When a report has issues, SitePulse sends the parsed issue list to Google's Gemini API with a prompt asking it to act as a senior web consultant and pick the 3 most impactful fixes, with a short reasoning for each. This solves a real problem: raw audit tools dump 10+ issues with no sense of priority, and most site owners don't know where to start. If the AI call fails, the app falls back silently to the plain numbered issue list, so the core tool never breaks.
+
+## Known Limitation
+
+The App currently do not provide Intensive Report about SEO metrics
+
+## Future Improvments
 
 - Save-and-compare history (no login, just local storage)
 - PDF export of a report
