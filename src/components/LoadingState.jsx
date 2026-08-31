@@ -1,4 +1,3 @@
-// Jab tak API se data nahi aata, ye placeholder rings dikhata hai
 function LoadingState() {
   const labels = ['Performance', 'SEO', 'Accessibility', 'Best Practices']
 

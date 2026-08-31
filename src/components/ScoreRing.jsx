@@ -1,4 +1,3 @@
-// Ek score ka circle banata hai. Rang score ke hisab se badalta hai.
 function ScoreRing({ label = '', score, size = 96 }) {
   const stroke = 6
   const radius = (size - stroke) / 2

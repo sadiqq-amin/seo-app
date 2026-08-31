@@ -1,4 +1,3 @@
-// Score ke neeche, plain-English mein batata hai kya galat hai
 function IssueList({ issues }) {
   if (!issues || issues.length === 0) {
     return (

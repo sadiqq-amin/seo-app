@@ -14,7 +14,6 @@ function formatVital(v) {
   return v.raw.toFixed(2)
 }
 
-// lower is better for LCP/INP/CLS (kam time/shift = achha)
 function diffVital(a, b) {
   if (!a || !b) return { text: '—', color: 'text-ink/40' }
   const d = a.raw - b.raw
@@ -24,7 +23,7 @@ function diffVital(a, b) {
     a.unit === 'ms' && abs >= 1000 ? `${(abs / 1000).toFixed(1)} s` :
     a.unit === 'ms' ? `${Math.round(abs)} ms` :
     abs.toFixed(2)
-  // negative d matlab site A tez/behtar hai (kam value)
+ 
   const color = d < 0 ? 'text-good' : 'text-bad'
   return { text: `${d > 0 ? '+' : '−'}${formatted}`, color }
 }
