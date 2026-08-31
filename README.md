@@ -11,6 +11,7 @@ Built as my frontend capstone project for my internship at FlyRank.ai.
 ## What it does
 
 - **Instant site check** — paste any URL and get 4 scores (Performance, SEO, Accessibility, Best Practices), pulled live from Google's PageSpeed Insights API.
+- **AI Recommandation** — AI provide you tips for fix your website seo.
 - **Plain-English issue list** — instead of raw technical audit data, you get a numbered, readable list of what's actually wrong and why it matters.
 - **Compare two sites** — run two websites side by side, see which one is ahead on each metric, and compare real-world Core Web Vitals (LCP, INP, CLS).
 - **Mobile vs Desktop toggle** — check how a site performs differently across devices.
@@ -25,10 +26,9 @@ Built as my frontend capstone project for my internship at FlyRank.ai.
 - **react-markdown** — renders blog posts from clean Markdown content.
 - **lucide-react** — icons.
 
-## Why no backend?
+## Why serverless backend?
 
-The PageSpeed Insights API is free, public, and CORS-friendly, so the whole app runs as a static frontend — no server to host or pay for. Keeps the project genuinely "frontend," which was the point of the capstone.
-
+The PageSpeed Insights API is free, public, and CORS-friendly, so the whole app runs as a static frontend and Gemini Key is embedded in serverless function.
 ## Running it locally
 
 ```bash
@@ -37,9 +37,10 @@ cd sitepulse
 npm install
 ```
 
-Create a `.env` file in the root with your own free PageSpeed Insights API key:
+Create a `.env` file in the root with your own free PageSpeed Insights and Gemini API key:
 ```
 VITE_PAGESPEED_API_KEY=your_key_here
+GEMINI_API_KEY=your_key_here
 ```
 
 Then:
