@@ -6,6 +6,7 @@ import ReportCard from './ReportCard'
 import LoadingState from './LoadingState'
 import IssueList from './IssueList'
 import ShareButton from './ShareButton'
+import AIActionPlan from './AIActionPlan'
 
 function UrlInputForm() {
   const [url, setUrl] = useState('')
@@ -55,6 +56,7 @@ function UrlInputForm() {
       {error && <p className="mt-4 text-bad text-sm text-center">{error}</p>}
       {loading && <LoadingState />}
       {report && <ReportCard scores={report} />}
+      {report && report.issues.length > 0 && <AIActionPlan url={url} issues={report.issues} />}
       {report && <IssueList issues={report.issues} />}
       {report && <ShareButton url={url} scores={report} />}
     </div>
